@@ -438,7 +438,7 @@ Todos os recursos são tagueados automaticamente para governança:
   Project     = "multicloud-security"
   Environment = "dev" | "staging" | "prod"
   ManagedBy   = "terraform"
-  Owner       = "platform-team"
+  Owner       = "heavyscan"
 }
 ```
 
@@ -486,8 +486,8 @@ MIT License — veja [LICENSE](LICENSE) para detalhes.
 
 <div align="center">
 
-**Feito com 🛡️ e Terraform**
+**Criado por @heavyscan 🛡️**
 
-*Segurança na nuvem é Infraestrutura como Código.*
+*Infraestrutura Multi-Cloud as Code.*
 
 </div>

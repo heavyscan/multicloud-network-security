@@ -80,7 +80,7 @@ oci_core_network_security_group_security_rule → por regra do security-policy
 | Flow Logs | AU-3, AU-12 | 3.1 | A.12.4.1 |
 | Criptografia em trânsito | SC-8 | 3.5 | A.13.2.1 |
 | Segmentação de rede | SC-7 | 4.3 | A.13.1.3 |
-| Tags de governança | CM-8 | 1.1 | A.8.1.1 |
+| Tags de governança | CM-8 | 1.1 | A.8.1.1 | (Responsável: @heavyscan) |
 
 ---
 

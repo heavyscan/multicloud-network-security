@@ -20,7 +20,7 @@ variable "environment" {
 variable "owner" {
   description = "Responsável pela infraestrutura"
   type        = string
-  default     = "platform-team"
+  default     = "heavyscan"
 }
 
 # -----------------------------------------------------------------------------
