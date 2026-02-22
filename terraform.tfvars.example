@@ -1,0 +1,50 @@
+# ============================================================================
+# Exemplo de terraform.tfvars — Preencha com seus valores
+# ============================================================================
+# Copie este arquivo para terraform.tfvars e ajuste os valores.
+# NÃO comite o arquivo terraform.tfvars no Git (ele contém credenciais/IDs).
+# ============================================================================
+
+# --- Geral ---
+project_name = "multicloud-security"
+environment  = "dev"
+owner        = "platform-team"
+
+# --- AWS ---
+aws_region          = "us-east-1"
+aws_vpc_cidr        = "10.10.0.0/16"
+aws_public_subnets  = ["10.10.1.0/24", "10.10.2.0/24"]
+aws_private_subnets = ["10.10.10.0/24", "10.10.11.0/24"]
+
+# --- Azure ---
+azure_subscription_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+azure_location        = "brazilsouth"
+azure_vnet_cidr       = "10.20.0.0/16"
+azure_subnets = {
+  "public"              = "10.20.1.0/24"
+  "private"             = "10.20.10.0/24"
+  "AzureFirewallSubnet" = "10.20.250.0/26"
+}
+
+# --- GCP ---
+gcp_project_id = "seu-projeto-gcp"
+gcp_region     = "southamerica-east1"
+gcp_subnet_cidr = "10.30.1.0/24"
+
+# --- OCI ---
+oci_region              = "sa-saopaulo-1"
+oci_compartment_id      = "ocid1.compartment.oc1..xxxxxxxx"
+oci_vcn_cidr            = "10.40.0.0/16"
+oci_public_subnet_cidr  = "10.40.1.0/24"
+oci_private_subnet_cidr = "10.40.10.0/24"
+
+# --- Regras Adicionais (opcional) ---
+# additional_ingress_rules = [
+#   {
+#     name        = "allow-rdp"
+#     port        = 3389
+#     protocol    = "tcp"
+#     cidr_blocks = ["10.0.0.0/8"]
+#     description = "RDP para redes internas"
+#   }
+# ]
