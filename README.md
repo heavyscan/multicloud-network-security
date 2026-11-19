@@ -22,6 +22,7 @@
 - [A Solução](#-a-solução)
 - [Arquitetura](#-arquitetura)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Requisitos de Sistema / System Requirements](#-requisitos-de-sistema--system-requirements)
 - [Início Rápido](#-início-rápido)
 - [Módulos](#-módulos)
 - [Regras de Segurança](#-regras-de-segurança)
@@ -226,6 +227,54 @@ graph LR
     ├── SECURITY.md                #    Políticas e compliance
     └── RUNBOOK.md                 #    Procedimentos operacionais
 ```
+
+---
+
+## 💻 Requisitos de Sistema / System Requirements
+
+### 🇧🇷 Português (BR) — Configuração Mínima & Recomendada
+
+A arquitetura deste projeto **Terraform Multi-Cloud IaC** é executada a partir de uma estação de controle local ou runner CI/CD para orquestrar redes e políticas de segurança em **AWS, Azure, GCP e OCI**, operando em três perfis de hardware:
+
+| Recurso | 🟢 Mínimo (Validação Local / 1 Cloud em Dev) | 🟡 Intermediário (Deploy Multi-Cloud Dev/Staging — 4 Clouds) | 🔵 Recomendado (CI/CD Enterprise / Produção Multi-AZ) |
+| :--- | :--- | :--- | :--- |
+| **CPU** | **2 vCPUs** (`x86_64` / `arm64`) | **2 a 4 vCPUs** (`x86_64` / `arm64`) | **4+ vCPUs** (`x86_64` / `arm64`) |
+| **Memória RAM** | **2 GB RAM** | **4 GB RAM** | **8 GB+ RAM** |
+| **Armazenamento (SSD)** | **2 GB livres** (Terraform + cache de providers) | **5 GB livres** (4 providers ~1.2 GB + CLIs + arquivos `tfplan`) | **10 GB+ SSD** (cache persistente de providers, logs e pipelines paralelos) |
+| **GPU (Opcional)** | Não necessária | Não necessária | Não necessária |
+| **Sistema Operacional** | Linux (Ubuntu 22.04+/Debian 12+), macOS 12+ ou Windows 10/11 (WSL2) | Linux, macOS ou Windows (WSL2) | Linux (Runner Ubuntu 24.04 LTS / Container CI) |
+
+#### 📦 Consumo por Componente da Arquitetura
+- **Terraform Core CLI (`>= 1.5.0`) + 4 Providers Simultâneos (`aws`, `azurerm`, `google`, `oci`)**: ~400 MB a 1.5 GB de RAM durante `terraform plan`/`apply` paralelo e ~1 GB a 1.5 GB em disco no diretório `.terraform/providers`.
+- **CLIs de Autenticação Cloud (`AWS CLI`, `Azure CLI`, `gcloud CLI`, `OCI CLI`)**: ~100 MB a 300 MB de RAM durante a autenticação e ~1.5 GB a 2.5 GB em disco combinados.
+- **Recursos Provisionados em Nuvem (Remotos)**: VPC/VNet/VCN, Security Groups/NSGs/Firewall Rules, Flow Logs, State Remoto (`S3 + DynamoDB`, `Azure Blob` ou `GCS`) e, em ambiente `prod`, **Azure Firewall** (`~$1.25/hora`).
+
+#### 🛠️ Dependências de Software
+- **Motor IaC & Versionamento**: `Terraform >= 1.5.0`, `Git`
+- **Providers Terraform (instalados via `terraform init`)**: `hashicorp/aws ~> 5.0`, `hashicorp/azurerm ~> 3.0`, `hashicorp/google ~> 5.0`, `oracle/oci ~> 5.0`
+- **CLIs & Credenciais Cloud**: `AWS CLI >= 2.0`, `Azure CLI >= 2.0`, `Google Cloud SDK (gcloud)`, `OCI CLI` e contas/permissões IAM configuradas
+
+### 🇺🇸 English — Minimum & Recommended Configuration
+
+This **Multi-Cloud Terraform IaC** architecture runs from a local workstation or CI/CD runner to orchestrate network infrastructure and unified security policies across **AWS, Azure, GCP, and OCI**, supporting three hardware profiles:
+
+| Resource | 🟢 Minimum (Local Validation / Single-Cloud Dev) | 🟡 Intermediate (Multi-Cloud Dev/Staging — 4 Clouds) | 🔵 Recommended (Enterprise CI/CD / Multi-AZ Prod) |
+| :--- | :--- | :--- | :--- |
+| **CPU** | **2 vCPUs** (`x86_64` / `arm64`) | **2 to 4 vCPUs** (`x86_64` / `arm64`) | **4+ vCPUs** (`x86_64` / `arm64`) |
+| **RAM** | **2 GB RAM** | **4 GB RAM** | **8 GB+ RAM** |
+| **Storage (SSD)** | **2 GB free** (Terraform + provider cache) | **5 GB free** (4 providers ~1.2 GB + CLIs + `tfplan` files) | **10 GB+ SSD** (persistent provider cache, logs & parallel pipelines) |
+| **GPU (Optional)** | Not required | Not required | Not required |
+| **Operating System** | Linux (Ubuntu 22.04+/Debian 12+), macOS 12+, or Windows 10/11 (WSL2) | Linux, macOS, or Windows (WSL2) | Linux (Ubuntu 24.04 LTS Runner / CI Container) |
+
+#### 📦 Resource Usage by Architecture Component
+- **Terraform Core CLI (`>= 1.5.0`) + 4 Concurrent Providers (`aws`, `azurerm`, `google`, `oci`)**: ~400 MB to 1.5 GB RAM during parallel `terraform plan`/`apply` and ~1 GB to 1.5 GB disk space in `.terraform/providers`.
+- **Cloud Authentication CLIs (`AWS CLI`, `Azure CLI`, `gcloud CLI`, `OCI CLI`)**: ~100 MB to 300 MB RAM during auth and ~1.5 GB to 2.5 GB combined disk usage.
+- **Cloud-Provisioned Infrastructure (Remote)**: VPC/VNet/VCN, Security Groups/NSGs/Firewall Rules, Flow Logs, Remote State (`S3 + DynamoDB`, `Azure Blob`, or `GCS`), plus **Azure Firewall** in `prod` (`~$1.25/hour`).
+
+#### 🛠️ Software Dependencies
+- **IaC Engine & VCS**: `Terraform >= 1.5.0`, `Git`
+- **Terraform Providers (fetched via `terraform init`)**: `hashicorp/aws ~> 5.0`, `hashicorp/azurerm ~> 3.0`, `hashicorp/google ~> 5.0`, `oracle/oci ~> 5.0`
+- **Cloud CLIs & Credentials**: `AWS CLI >= 2.0`, `Azure CLI >= 2.0`, `Google Cloud SDK (gcloud)`, `OCI CLI`, and valid IAM credentials for enabled clouds
 
 ---
 
